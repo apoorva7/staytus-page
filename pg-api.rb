@@ -7,7 +7,7 @@ http.use_ssl = true
 
 request = Net::HTTP::Get.new(url)
 request['Accept'] = 'application/vnd.pagerduty+json;version=2'
-#request['Authorization'] = 'Token token=t1xZ43_KN2yv_FWFaJjg'
+#request['Authorization'] = 'Token token=<token>'
 
 response = http.request(request)
 #puts response.read_body
