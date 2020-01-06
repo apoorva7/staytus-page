@@ -30,22 +30,30 @@ any organization with customers that rely on them to be online 24/7.
 
 Alternativly, these basic instructions will get you up and running:
 
-Before start, you'll need to create a new MySQL database:
+Before start, you'll need to create a new MySQL database called staytus and add a user called adam:
 
 ```text
-mysql$ CREATE DATABASE `staytus` CHARSET utf8 COLLATE utf8_unicode_ci;
-mysql$ GRANT ALL ON staytus.* TO `staytus`@`localhost` IDENTIFIED BY "a_secure_password";
+$ sudo mysql -u root -p
+mysql$ CREATE DATABASE `staytus` CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
+mysql$ CREATE USER `adam`@`127.0.0.1` IDENTIFIED BY 'adam123';
+mysql$ GRANT ALL ON `staytus`.* TO `adam`@`127.0.0.1`;
 ```
 
+First we'll install the required dependencies such as bundler, procodile, mysql
 ```text
-$ git clone https://github.com/adamcooke/staytus
-$ cd staytus
-$ git checkout stable
-$ bundle install --deployment --without development:test
-$ cp config/database.example.yml config/database.yml
-$ nano -w config/database.yml # Add your database configuration
-$ bundle exec rake staytus:build staytus:install
-$ procodile start --foreground
+$ sudo apt update
+$ sudo apt install mysql-server ruby ruby-dev nodejs git build-essential libmysqlclient-dev libssl-dev
+$ sudo gem install bundler procodile
+$ sudo useradd -r -d /opt/adam -m -s /bin/bash adam #adding user adam
+$ sudo -u adam git clone https://github.com/adamcooke/staytus /opt/adam/staytus
+$ cd /opt/adam/staytus/
+$ sudo gem install bundler -v 1.17.2
+$ sudo -u adam bundle install --deployment --without development:test
+$ sudo -u adam cp config/database.example.yml config/database.yml
+$ sudo -u adam nano -w config/database.yml
+$ sudo -u adam bundle exec rake staytus:build
+$ sudo -u adam bundle exec rake staytus:install
+$ sudo -u adam procodile start --dev
 ```
 
 This will run the application on HTTP port 5000. When you first
