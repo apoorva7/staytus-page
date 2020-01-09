@@ -35,8 +35,8 @@ Before start, you'll need to create a new MySQL database called staytus and add 
 ```text
 $ sudo mysql -u root -p
 mysql$ CREATE DATABASE `staytus` CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
-mysql$ CREATE USER `adam`@`127.0.0.1` IDENTIFIED BY 'adam123';
-mysql$ GRANT ALL ON `staytus`.* TO `adam`@`127.0.0.1`;
+mysql$ CREATE USER `staytus`@`127.0.0.1` IDENTIFIED BY 'choose-a-password';
+mysql$ GRANT ALL ON `staytus`.* TO `staytus`@`127.0.0.1`;
 ```
 
 First we'll install the required dependencies such as bundler, procodile, mysql
@@ -44,20 +44,20 @@ First we'll install the required dependencies such as bundler, procodile, mysql
 $ sudo apt update
 $ sudo apt install mysql-server ruby ruby-dev nodejs git build-essential libmysqlclient-dev libssl-dev
 $ sudo gem install bundler procodile
-$ sudo useradd -r -d /opt/adam -m -s /bin/bash adam #adding user adam
-$ sudo -u adam git clone https://github.com/adamcooke/staytus /opt/adam/staytus
-$ cd /opt/adam/staytus/
+$ sudo useradd -r -d /opt/staytus -m -s /bin/bash staytus #adding user staytus
+$ sudo -u staytus git clone https://github.com/apoorva7/staytus-page /opt/staytus/staytus
+$ cd /opt/staytus/staytus/
 $ sudo gem install bundler -v 1.17.2
-$ sudo -u adam bundle install --deployment --without development:test
-$ sudo -u adam cp config/database.example.yml config/database.yml
-$ sudo -u adam nano -w config/database.yml
-$ sudo -u adam bundle exec rake staytus:build
-$ sudo -u adam bundle exec rake staytus:install
-$ sudo -u adam procodile start --dev
+$ sudo -u staytus bundle install --deployment --without development:test (NOTE: ran all the below commands without the '-u staytus' option in the dev server)
+$ sudo -u staytus cp config/database.example.yml config/database.yml
+$ sudo -u staytus nano -w config/database.yml
+$ sudo -u staytus bundle exec rake staytus:build
+$ sudo -u staytus bundle exec rake staytus:install
+$ sudo -u staytus procodile start --dev
 ```
 
 This will run the application on HTTP port 5000. When you first
-login, you'll be able to add your own site settings. Browse to http://[IP]:8787
+login, you'll be able to add your own site settings. Browse to http://[IP]:8080
 to begin.
 
 You may also want to change the SMTP configuration via environment variables,
